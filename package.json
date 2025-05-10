@@ -42,7 +42,8 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.34",
-    "gh-pages": "^6.3.0"
+    "gh-pages": "^6.3.0",
+    "typescript": "^5.8.3"
   },
   "homepage": "https://tkdgh7063.github.io/Todo-app"
 }
