@@ -44,6 +44,8 @@ function TodoList() {
     handleSubmit,
     formState: { errors },
     setError,
+    setValue,
+    reset,
   } = useForm<IForm>({
     defaultValues: {
       email: "user@example.com",
@@ -58,6 +60,7 @@ function TodoList() {
       );
     }
     // setError("customError", { message: "Unknown Form Error." });
+    reset({ email: "", password: "", passwordConfirm: "" });
   };
   return (
     <div>
