@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { recoilPersist } from "recoil-persist";
 
 export const Categories: ICategory[] = [
   { id: "0", name: "To Do" },
@@ -17,16 +18,26 @@ export interface IToDo {
   category: ICategory;
 }
 
-// export const categoryListState = atom<>({})
+const { persistAtom } = recoilPersist({
+  key: "category_todo_recoil",
+  storage: localStorage,
+});
 
-export const categoryState = atom<ICategory>({
+export const categoryListState = atom<ICategory[]>({
+  key: "categories",
+  default: Categories,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const categoryState = atom<ICategory | undefined>({
   key: "category",
-  default: Categories[0],
+  default: undefined,
 });
 
 export const toDoState = atom<IToDo[]>({
   key: "toDo",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const toDoSelector = selector({
@@ -34,6 +45,6 @@ export const toDoSelector = selector({
   get: ({ get }) => {
     const toDos = get(toDoState);
     const category = get(categoryState);
-    return toDos.filter((toDo) => toDo.category.id === category.id);
+    return toDos.filter((toDo) => toDo.category.id === category?.id);
   },
 });
