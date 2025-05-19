@@ -22,7 +22,7 @@ export const toDoState = atom<IToDo[]>({
   default: [],
 });
 
-export const toDoSelctor = selector({
+export const toDoSelector = selector({
   key: "toDoSelector",
   get: ({ get }) => {
     const toDos = get(toDoState);
