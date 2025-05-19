@@ -11,8 +11,11 @@ function AddTodo() {
   const category = useRecoilValue(categoryState);
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const handleValid = ({ toDo }: IForm) => {
-    setToDos((prev) => [{ id: Date.now(), text: toDo, category }, ...prev]);
-    setValue("toDo", "");
+    if (category === undefined) {
+    } else {
+      setToDos((prev) => [{ id: Date.now(), text: toDo, category }, ...prev]);
+      setValue("toDo", "");
+    }
   };
   return (
     <form onSubmit={handleSubmit(handleValid)}>
