@@ -1,16 +1,9 @@
-import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  categoryState,
-  toDoSelector,
-  Categories,
-  categoryListState,
-  ICategory,
-} from "../atoms";
+import { categoryState, toDoSelector, categoryListState } from "../atoms";
 import AddTodo from "./AddTodo";
 import ToDo from "./ToDo";
 import CreatableSelect from "react-select/creatable";
-import { StylesConfig, SingleValue } from "react-select";
+import { StylesConfig } from "react-select";
 
 interface Option {
   label: string;
