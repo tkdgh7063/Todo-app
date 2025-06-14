@@ -1,9 +1,15 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { categoryState, toDoSelector, categoryListState } from "../atoms";
+import {
+  categoryState,
+  toDoSelector,
+  categoryListState,
+  toDoState,
+  Categories,
+} from "../atoms";
 import AddTodo from "./AddTodo";
 import ToDo from "./ToDo";
 import CreatableSelect from "react-select/creatable";
-import { StylesConfig } from "react-select";
+import { StylesConfig, components } from "react-select";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
 interface Option {
@@ -68,16 +74,62 @@ const darkThemeStyles: StylesConfig<Option, false> = {
   }),
 };
 
+const defaultCategoryIds = Categories.map((category) => category.id);
+
+const CustomOption = (props: any) => {
+  const { data, innerRef, innerProps, selectProps } = props;
+
+  const handleDelete = (e: any) => {
+    e.stopPropagation();
+    if (selectProps.onDeleteOption) {
+      selectProps.onDeleteOption(data);
+    }
+  };
+
+  const isCustomValue = !defaultCategoryIds.includes(data.value);
+  const isCreateOption = data.__isNew__ === true;
+
+  return (
+    <div style={{ display: "flex" }}>
+      <components.Option {...props} />
+      {isCustomValue && !isCreateOption && (
+        <button onClick={handleDelete}>❌</button>
+      )}
+    </div>
+  );
+};
+
 function TodoList() {
   const toDos = useRecoilValue(toDoSelector);
   const [category, setCategory] = useRecoilState(categoryState);
   const [categories, setCategories] = useRecoilState(categoryListState);
+  const setToDos = useRecoilState(toDoState)[1];
+
+  const handleDeleteCategory = (categoryToDelete: {
+    label: string;
+    value: string;
+  }) => {
+    if (defaultCategoryIds.includes(categoryToDelete.value)) return;
+
+    setCategories((prev) =>
+      prev.filter((c) => c.id !== categoryToDelete.value)
+    );
+
+    setToDos((prev) =>
+      prev.filter((td) => td.category.id !== categoryToDelete.value)
+    );
+
+    if (category?.id === categoryToDelete.value) {
+      setCategory(undefined);
+    }
+  };
 
   return (
     <div>
       <h1>To Dos</h1>
       <hr />
       <CreatableSelect
+        components={{ Option: CustomOption }}
         styles={darkThemeStyles}
         isClearable
         options={categories.map((c) => ({ label: c.name, value: c.id }))}
@@ -88,6 +140,7 @@ function TodoList() {
             id: (categories.length + 1).toString(),
             name: inputValue,
           };
+
           setCategories((prev) => [...prev, newCategory]);
           setCategory(newCategory);
         }}
@@ -98,6 +151,9 @@ function TodoList() {
             setCategory(undefined);
           }
         }}
+        menuPlacement="auto"
+        menuPosition="absolute"
+        {...{ onDeleteOption: handleDeleteCategory }}
       />
       <hr />
       <AddTodo />
