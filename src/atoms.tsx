@@ -1,12 +1,6 @@
 import { atom, selector } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
-export const Categories: ICategory[] = [
-  { id: "0", name: "To Do" },
-  { id: "1", name: "Doing" },
-  { id: "2", name: "Done" },
-];
-
 export interface ICategory {
   id: string;
   name: string;
@@ -17,6 +11,12 @@ export interface IToDo {
   text: string;
   category: ICategory;
 }
+
+export const Categories: ICategory[] = [
+  { id: "0", name: "To Do" },
+  { id: "1", name: "Doing" },
+  { id: "2", name: "Done" },
+];
 
 const { persistAtom } = recoilPersist({
   key: "category_todo_recoil",
