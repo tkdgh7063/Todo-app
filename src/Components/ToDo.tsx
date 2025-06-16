@@ -16,8 +16,8 @@ function ToDo({ id, category, text }: IToDo) {
     });
   };
   return (
-    <li>
-      <span>{text}</span>
+    <>
+      <span>📝 {text}</span>
       {categories.map((c) =>
         c.id !== category.id ? (
           <button key={c.id} name={c.name} onClick={() => onClick(c)}>
@@ -25,7 +25,8 @@ function ToDo({ id, category, text }: IToDo) {
           </button>
         ) : null
       )}
-    </li>
+      <br />
+    </>
   );
 }
 
