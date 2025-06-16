@@ -10,7 +10,6 @@ import AddTodo from "./AddTodo";
 import ToDo from "./ToDo";
 import CreatableSelect from "react-select/creatable";
 import { StylesConfig, components } from "react-select";
-import { Draggable, Droppable } from "react-beautiful-dnd";
 
 interface Option {
   label: string;
@@ -157,28 +156,9 @@ function TodoList() {
       />
       <hr />
       <AddTodo />
-      <Droppable droppableId="todo-list">
-        {(provided) => (
-          <ul ref={provided.innerRef} {...provided.droppableProps}>
-            {toDos.map((toDo, index) => (
-              <Draggable
-                draggableId={toDo.id.toString()}
-                index={index}
-                key={toDo.id}>
-                {(provided) => (
-                  <li
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}>
-                    <ToDo key={toDo.id} {...toDo} />
-                  </li>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </ul>
-        )}
-      </Droppable>
+      {toDos?.map((toDo) => (
+        <ToDo key={toDo.id} {...toDo} />
+      ))}
     </div>
   );
 }

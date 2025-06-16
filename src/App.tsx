@@ -1,5 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-import { DragDropContext } from "react-beautiful-dnd";
 import TodoList from "./Components/TodoList";
 
 const GlobalStyle = createGlobalStyle`
@@ -67,13 +66,10 @@ a {
 `;
 
 function App() {
-  const onDragEnd = () => {};
   return (
     <>
       <GlobalStyle />
-      <DragDropContext onDragEnd={onDragEnd}>
-        <TodoList />
-      </DragDropContext>
+      <TodoList />
     </>
   );
 }
