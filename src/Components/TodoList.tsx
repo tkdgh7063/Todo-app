@@ -76,7 +76,7 @@ const darkThemeStyles: StylesConfig<Option, false> = {
 const defaultCategoryIds = Categories.map((category) => category.id);
 
 const CustomOption = (props: any) => {
-  const { data, innerRef, innerProps, selectProps } = props;
+  const { data, selectProps } = props;
 
   const handleDelete = (e: any) => {
     e.stopPropagation();
